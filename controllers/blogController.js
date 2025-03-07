@@ -1,21 +1,12 @@
 const connection = require('../data/db');
 
 function index(req, res) {
-    // res.send('Lista dei posts');
-    // res.json(posts);
-    // Errore Fake
-    // kqkqkqkq;
-    
-    let filteredPosts = posts;
-    if(req.query.tag) {
-        filteredPosts = posts.filter(
-            post => post.tags.includes(req.query.tag)
-        );
-    }
-    res.json(filteredPosts);
-
-    }
-
+    const sql = 'SELECT * FROM posts';
+    connection.query(sql, (err,results) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        res.json(results);
+    });
+}
 function show(req, res) {
     // res.send('Dettagli dei blog' + req.params.id);
 
