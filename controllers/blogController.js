@@ -78,31 +78,13 @@ function update(req, res) {
 }
 
 function destroy(req, res) {
-    // res.send('Eliminazione del blog' + req.params.id);
-
-        // Recupero dell'id dall'URL e l'ho trasformo in numero
-        const id = parseInt(req.params.id)
-
-        // Cerco il post via id
-        const post = posts.find(post => post.id ===id);
     
-        // Controllo
-        if(!post) {
-            res.status(404);
-            return res.json({
-                errror: "Not found",
-                message: "Post non trovato"
-            })
-        }
-
-        // Cancello il post trovato
-        posts.splice(posts.indexOf(post), 1);
-
-        // Check di aggiornamento dati
-        console.log(posts);
-
-        // Ritorno la risposta affermativa di avvenuta cancellazione
+    const id = parseInt(req.params.id)
+    const sql ='DELETE FROM posts WHERE id = ?';
+    connection.query(sql, [id], (err) => {
+        if(err) return res.status(500).json({ error: 'Failed to delete post' });
         res.sendStatus(204);
+    });
         
 }
 
